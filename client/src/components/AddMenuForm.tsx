@@ -59,7 +59,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
       menuStatus: initialData?.menuStatus ?? true,
       isSubmenu: initialData?.isSubmenu ?? false,
       pageStatus: initialData?.pageStatus ?? true,
-      imageUrl: initialData?.imageUrl || null,
+      imageUrl: initialData?.imageUrl || "",
     },
   });
 
@@ -116,8 +116,8 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                     <FormItem>
                       <FormLabel>Select Parent Menu (optional)</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
-                        value={field.value || ""}
+                        onValueChange={(value) => field.onChange(value === "none" ? null : value)}
+                        value={field.value || "none"}
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -125,7 +125,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="">No Parent Menu</SelectItem>
+                          <SelectItem value="none">No Parent Menu</SelectItem>
                           {parentOptions.map((menu) => (
                             <SelectItem key={menu.id} value={menu.id}>
                               {menu.menuName}
@@ -164,7 +164,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                   <FormItem>
                     <FormLabel>Icon</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., home, users, settings" {...field} />
+                      <Input placeholder="e.g., home, users, settings" {...field} value={field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +179,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                   <FormItem>
                     <FormLabel>Menu Link</FormLabel>
                     <FormControl>
-                      <Input placeholder="/admin/dashboard" {...field} />
+                      <Input placeholder="/admin/dashboard" {...field} value={field.value || ""} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -228,7 +228,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                         <FormLabel className="text-sm font-medium">Menu Status</FormLabel>
                         <FormControl>
                           <Switch
-                            checked={field.value}
+                            checked={field.value || false}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
@@ -245,7 +245,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                         <FormLabel className="text-sm font-medium">Is Submenu</FormLabel>
                         <FormControl>
                           <Switch
-                            checked={field.value}
+                            checked={field.value || false}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
@@ -262,7 +262,7 @@ export default function AddMenuForm({ initialData, isEdit = false }: AddMenuForm
                         <FormLabel className="text-sm font-medium">Page Status</FormLabel>
                         <FormControl>
                           <Switch
-                            checked={field.value}
+                            checked={field.value || false}
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
