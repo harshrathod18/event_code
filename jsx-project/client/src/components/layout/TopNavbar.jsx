@@ -1,13 +1,18 @@
 import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import { Menu, ChevronDown, User } from "lucide-react";
 
-export default function TopNavbar() {
+export default function TopNavbar({ onToggleSidebar = () => {} }) {
   return (
     <Navbar className="top-navbar px-3" expand="lg">
       <div className="d-flex align-items-center">
-        <button className="btn btn-link d-lg-none p-2 text-muted">
+        <button 
+          className="mobile-menu-toggle d-lg-none p-2"
+          onClick={onToggleSidebar}
+          aria-label="Toggle sidebar"
+        >
           <Menu size={20} />
         </button>
+        <span className="d-lg-none fw-bold text-primary ms-2">Admin Panel</span>
       </div>
 
       <Nav className="ms-auto">
@@ -17,10 +22,10 @@ export default function TopNavbar() {
             className="d-flex align-items-center text-decoration-none text-dark"
             id="user-dropdown"
           >
-            <div className="bg-primary-custom text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '32px', height: '32px'}}>
+            <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style={{width: '32px', height: '32px'}}>
               <User size={16} />
             </div>
-            <span className="fw-medium">Talebda</span>
+            <span className="fw-medium d-none d-sm-inline">Talebda</span>
             <ChevronDown size={16} className="ms-2 text-muted" />
           </Dropdown.Toggle>
 

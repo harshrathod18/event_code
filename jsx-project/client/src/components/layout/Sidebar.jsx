@@ -1,8 +1,8 @@
 import { Nav } from "react-bootstrap";
 import { Link, useLocation } from "wouter";
-import { BarChart3, List, UserCheck, Shield } from "lucide-react";
+import { BarChart3, List, UserCheck, Shield, X, Plus } from "lucide-react";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen = false, onClose = () => {} }) {
   const [location] = useLocation();
 
   const menuItems = [
@@ -15,9 +15,14 @@ export default function Sidebar() {
 
   const roleItems = [
     {
-      title: "Manage Menu",
+      title: "Menu List",
       icon: List,
       href: "/menu-list",
+    },
+    {
+      title: "Add Menu",
+      icon: Plus,
+      href: "/add-menu",
     },
     {
       title: "Manage Roles",
@@ -28,12 +33,28 @@ export default function Sidebar() {
 
   const isActive = (href) => location === href || (href === "/dashboard" && location === "/");
 
+  const handleNavClick = () => {
+    // Close sidebar on mobile when nav item is clicked
+    if (window.innerWidth < 993) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="admin-sidebar slide-in">
+    <div className={`admin-sidebar ${isOpen ? 'show' : ''}`}>
       {/* Sidebar Header */}
-      <div className="sidebar-header">
-        <Shield size={20} className="me-2" />
-        ADMIN PANEL
+      <div className="sidebar-header d-flex justify-content-between align-items-center">
+        <div className="d-flex align-items-center">
+          <Shield size={20} className="me-2" />
+          ADMIN PANEL
+        </div>
+        <button 
+          className="btn btn-link text-white d-lg-none p-0"
+          onClick={onClose}
+          aria-label="Close sidebar"
+        >
+          <X size={24} />
+        </button>
       </div>
 
       {/* Navigation Menu */}
@@ -46,6 +67,7 @@ export default function Sidebar() {
                 <Nav.Link
                   as="div"
                   className={`d-flex align-items-center ${isActive(item.href) ? "active" : ""}`}
+                  onClick={handleNavClick}
                 >
                   <Icon size={18} className="me-2" />
                   {item.title}
@@ -59,7 +81,7 @@ export default function Sidebar() {
         <div className="mt-3">
           <div className="px-3 py-2 text-muted small text-uppercase fw-bold">
             <UserCheck size={16} className="me-2" />
-            Role and Rights
+            Management
           </div>
           {roleItems.map((item) => {
             const Icon = item.icon;
@@ -69,6 +91,7 @@ export default function Sidebar() {
                   <Nav.Link
                     as="div"
                     className={`d-flex align-items-center ms-3 ${isActive(item.href) ? "active" : ""}`}
+                    onClick={handleNavClick}
                   >
                     <Icon size={16} className="me-2" />
                     {item.title}
